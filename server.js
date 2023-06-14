@@ -14,7 +14,7 @@ var corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.options("/receipts/process", cors(corsOptions));
+app.use(cors(corsOptions));
 
 // Middleware for setting various HTTP headers
 app.use(helmet());
@@ -31,7 +31,6 @@ app.use(express.json());
 
 app.post(
   "/receipts/process",
-  cors(corsOptions),
   //validation rules
   [
     body("retailer").isLength({ min: 1 }).withMessage("retailer is required"),
