@@ -28,21 +28,21 @@ If the trimmed length of the item description is a multiple of 3, multiply the p
 
 1. Clone the repository:
 
-'''
+```
 git clone https://github.com/web34nBeYonD/Rewards_Backend
-'''
+```
 
 2. Build the Docker Image:
 
-'''
+```
 docker build -t rewards_backend .
-'''
+```
 
 3. Run the Docker container:
 
-'''
+```
 docker run -p 3000:3000 rewards_backend
-'''
+```
 
 The app should now be running on http://localhost:3000.
 
