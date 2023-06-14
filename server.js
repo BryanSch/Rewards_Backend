@@ -12,8 +12,13 @@ const app = express();
 // Middleware for setting various HTTP headers
 app.use(helmet());
 
+var corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+
 // Middleware for handling Cross-Origin Resource Sharing (CORS)
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Middleware for rate limiting
 const limiter = rateLimit({
