@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const { v4: uuidv4 } = require("uuid");
 const receipts = {};
@@ -7,6 +8,13 @@ const calculatePoints = require("./pointsCalculator");
 const { body, validationResult, param } = require("express-validator");
 
 const app = express();
+
+var corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+
+app.options("/receipts/process", cors(corsOptions));
 
 // Middleware for setting various HTTP headers
 app.use(helmet());
@@ -23,6 +31,7 @@ app.use(express.json());
 
 app.post(
   "/receipts/process",
+  cors(corsOptions),
   //validation rules
   [
     body("retailer").isLength({ min: 1 }).withMessage("retailer is required"),
