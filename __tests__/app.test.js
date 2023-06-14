@@ -34,6 +34,41 @@ describe("POST /receipts/process", () => {
 
     expect(res.statusCode).toEqual(400);
   });
+
+  test("returns error when retailer is missing", async () => {
+    const receipt = {
+      total: "49.99",
+      items: [],
+      purchaseDate: "2023-06-15",
+      purchaseTime: "15:00:00",
+    };
+
+    const response = await request(app).post("/receipts/process").send(receipt);
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toContainEqual({
+      msg: "retailer is required",
+      param: "retailer",
+    });
+  });
+
+  test("returns error when purchaseDate is invalid", async () => {
+    const receipt = {
+      retailer: "test123",
+      total: "49.99",
+      items: [],
+      purchaseDate: "2023-30-15", // invalid date
+      purchaseTime: "15:00:00",
+    };
+
+    const response = await request(app).post("/receipts/process").send(receipt);
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toContainEqual({
+      msg: "purchaseDate must be a valid ISO 8601 date",
+      param: "purchaseDate",
+    });
+  });
 });
 
 describe("GET /receipts/:id/points", () => {
