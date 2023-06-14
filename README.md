@@ -6,6 +6,8 @@ This project is a simple points calculation system for receipts. The API details
 
 This allows for POST/GET method to take in a JSON receipt and a return a random ID- then passing this ID to a getter endpoint to get the points awarded.
 
+Memory will be erased upon exit- no long term data storage included
+
 ## Rules
 
 The points calculations are handled in pointsCalculator.js and handle the below rules:
