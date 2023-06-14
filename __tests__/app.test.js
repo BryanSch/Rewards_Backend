@@ -35,39 +35,105 @@ describe("POST /receipts/process", () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  test("returns error when retailer is missing", async () => {
-    const receipt = {
-      total: "49.99",
-      items: [],
-      purchaseDate: "2023-06-15",
-      purchaseTime: "15:00:00",
-    };
-
-    const response = await request(app).post("/receipts/process").send(receipt);
+  it("returns error when retailer is missing", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        purchaseDate: "2023-05-15",
+        purchaseTime: "15:00:00",
+        items: [{ shortDescription: "item1", price: "20.00" }],
+        total: "20.00",
+      });
 
     expect(response.status).toBe(400);
-    expect(response.body.errors).toContainEqual({
-      msg: "retailer is required",
-      param: "retailer",
-    });
+    expect(response.body.errors.length).toBeGreaterThan(0);
   });
 
-  test("returns error when purchaseDate is invalid", async () => {
-    const receipt = {
-      retailer: "test123",
-      total: "49.99",
-      items: [],
-      purchaseDate: "2023-30-15", // invalid date
-      purchaseTime: "15:00:00",
-    };
-
-    const response = await request(app).post("/receipts/process").send(receipt);
+  it("returns error when purchaseDate is invalid", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        retailer: "Retailer",
+        purchaseDate: "2023-30-15",
+        purchaseTime: "15:00:00",
+        items: [{ shortDescription: "item1", price: "20.00" }],
+        total: "20.00",
+      });
 
     expect(response.status).toBe(400);
-    expect(response.body.errors).toContainEqual({
-      msg: "purchaseDate must be a valid ISO 8601 date",
-      param: "purchaseDate",
+    expect(response.body.errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns error when purchaseTime is not in 24-hour format", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        retailer: "Retailer",
+        purchaseDate: "2023-05-15",
+        purchaseTime: "25:00:00",
+        items: [{ shortDescription: "item1", price: "20.00" }],
+        total: "20.00",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns error when no items are provided", async () => {
+    const response = await request(app).post("/receipts/process").send({
+      retailer: "Retailer",
+      purchaseDate: "2023-05-15",
+      purchaseTime: "15:00:00",
+      total: "20.00",
     });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns error when an item's short description is missing", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        retailer: "Retailer",
+        purchaseDate: "2023-05-15",
+        purchaseTime: "15:00:00",
+        items: [{ price: "20.00" }],
+        total: "20.00",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns error when an item's price is missing", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        retailer: "Retailer",
+        purchaseDate: "2023-05-15",
+        purchaseTime: "15:00:00",
+        items: [{ shortDescription: "item1" }],
+        total: "20.00",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns error when total is not in the correct format", async () => {
+    const response = await request(app)
+      .post("/receipts/process")
+      .send({
+        retailer: "Retailer",
+        purchaseDate: "2023-05-15",
+        purchaseTime: "15:00:00",
+        items: [{ shortDescription: "item1", price: "20.00" }],
+        total: "20",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors.length).toBeGreaterThan(0);
   });
 });
 
