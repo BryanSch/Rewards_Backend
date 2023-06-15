@@ -9,6 +9,10 @@ const { body, validationResult, param } = require("express-validator");
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("Hello, server is running!"); // Replace with your desired response
+});
+
 var corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
@@ -55,6 +59,8 @@ app.post(
   ],
 
   (req, res) => {
+    // Log the request payload
+    console.log("Request Payload:", req.body);
     // Check if there were validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
