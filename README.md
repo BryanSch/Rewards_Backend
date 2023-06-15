@@ -2,11 +2,19 @@
 
 ## Overview
 
-This project is a simple points calculation system for receipts. The API details can be found in the api.yml file.
+This project is a backend server- simple points calculation system for receipts. The API details can be found in the api.yml file.
 
 This allows for POST/GET method to take in a JSON receipt and a return a random ID- then passing this ID to a getter endpoint to get the points awarded.
 
 Memory will be erased upon exit- no long term data storage included
+
+## Front End Component/Test
+
+I have created a front end sample component where you can live test examples by manually putting the receipt inputs
+
+https://rewards-frontend-droplet.vercel.app/
+
+You can also download and customize with your own backend here https://github.com/web34nBeYonD/Rewards-Frontend-Tester
 
 ## Rules
 
@@ -14,7 +22,7 @@ The points calculations are handled in pointsCalculator.js and handle the below 
 
 These rules collectively define how many points should be awarded to a receipt.
 
-One point for every alphanumeric character in the retailer name.
+1 point for every alphanumeric character in the retailer name.
 
 50 points if the total is a round dollar amount with no cents.
 
