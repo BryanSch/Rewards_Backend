@@ -1,0 +1,25 @@
+### POST /receipts/process ###
+
+POST http://localhost:3000/receipts/process
+Content-Type: application/json
+
+{
+  "retailer": "Example Retailer",
+  "purchaseDate": "2023-06-23",
+  "purchaseTime": "12:34",
+  "items": [
+    {
+      "shortDescription": "Item 1",
+      "price": "10.00"
+    },
+    {
+      "shortDescription": "Item 2",
+      "price": "20.00"
+    }
+  ],
+  "total": "30.00"
+}
+
+### GET /receipts/{id}/points ###
+
+GET http://localhost:3000/receipts/your-receipt-id/points
