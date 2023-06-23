@@ -8,6 +8,10 @@ This allows for POST/GET method to take in a JSON receipt and a return a random 
 
 Memory will be erased upon exit- no long term data storage included
 
+## REST extenstion testing
+
+Added file test.rest to allow for testing in Visual Studio code in terminal with proper installed REST extenstion
+
 ## Front End Component/Test
 
 I have created a front end sample component where you can live test examples by manually putting the receipt inputs
